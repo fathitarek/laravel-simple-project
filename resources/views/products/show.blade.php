@@ -2,19 +2,24 @@
 
 @section('content')
 
-   <p>{{$product->id}}</p> 
-  <p>{{$product->name}}</p>  
-   <p>{{$product->created_at}}</p>
-<p>   {{$product->updated_at}}</p>
-<p>   {{$product->before_price}}</p>
-<p>   {{$product->after_price}}</p>
-<p>   {{$product->description}}</p>
+   <p>id: {{$product->id}}</p> 
+  <p> name: {{$product->name}}</p>  
+<p>  before price: {{$product->before_price}}</p>
+<p>  after price :  {{$product->after_price}}</p>
+<p> description:   {{$product->description}}</p>
+<p>Colors: </p>
 @foreach ($product->colors_id as $value )
     
 {{$value->color->name}}
 @endforeach
 
-   <div class="pull-left">
+<p>IMages: </p>
+@foreach ($product->images as $image )
+    
+<img src="{{$image->image}}" style="width: 50px;height:50px">
+@endforeach
+
+   <div class="">
                 <a class="btn btn-success" href="{{ route('product.index') }}"> Back</a>
             </div>
 @endsection

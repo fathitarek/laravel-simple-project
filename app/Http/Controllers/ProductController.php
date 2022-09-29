@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use App\ProductsColor;
+use App\ProductsImages;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,8 +13,8 @@ class ProductController extends Controller
 
 public function __construct()
 {
-    // $this->middleware('auth');
-    $this->middleware('auth', ['except' => ['index', 'show']]);
+    $this->middleware('auth');
+    // $this->middleware('auth', ['except' => ['index', 'show']]);
 }
 
 
@@ -50,7 +51,7 @@ public function __construct()
      */
     public function store(Request $request)
     {
-        // return $request->category_id;
+        // return $request;
        $product=  Product::create(['name'=>$request->name,'category_id'=>$request->category_id,'before_price'=>$request->before_price,'after_price'=>$request->after_price,
          'description'=>$request->description]);
 
@@ -58,7 +59,15 @@ public function __construct()
             ProductsColor::create(['product_id'=>$product->id,"color_id"=>$request->color_id[$i]]);
          }
         
-          
+      if($files=$request->file('images')){
+            foreach($files as $file){
+            $file->move(public_path('/uploads'), $file->getClientOriginalName());
+            $path='/uploads/'.$file->getClientOriginalName();
+            ProductsImages::create(['product_id'=>$product->id,"image"=>$path]);
+            }
+        }
+     
+          return redirect()->route('product.index');
     }
 
     /**
@@ -71,6 +80,7 @@ public function __construct()
     {
         // return $product;
        $product->colors_id= ProductsColor::select('color_id')->with(["color"])->where('product_id',$product->id)->get();
+       $product->images= ProductsImages::select('image')->where('product_id',$product->id)->get();
     //    return $product;
        return view('products.show')->with('product',$product);
     }
@@ -106,8 +116,8 @@ public function __construct()
      */
     public function destroy(Product $product)
     {
-        //  $category->delete();
         ProductsColor::where('product_id',$product->id)->delete();
+        ProductsImages::where('product_id',$product->id)->delete();
          $product->delete();
          return redirect()->route('product.index');
     }

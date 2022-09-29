@@ -34,3 +34,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('category', CategoryController::class);
 Route::resource('product', ProductController::class);
+
+Route::get('/x', function () {
+    return view('front.index');
+});
+
+// Route::get('/detail', function () {
+//     return view('front.detail');
+// });
+
+
+Route::get('/shop/{id}',"ShopFrontController@index");
+Route::get('/detail/{id}',"ShopFrontController@detail");

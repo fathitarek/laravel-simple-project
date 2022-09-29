@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="pull-left">
-                <a class="btn btn-success" href="{{ route('product.create') }}"> Create New Category</a>
+                <a class="btn btn-success" href="{{ route('product.create') }}"> Create New Product</a>
             </div>
         <table class="table">
             <tr>
