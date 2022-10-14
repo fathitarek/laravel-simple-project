@@ -24,10 +24,23 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
+
+                        @if (Auth::guard('customer')->guest())
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="" class="nav-item nav-link">Login</a>
-                            <a href="" class="nav-item nav-link">Register</a>
+                            <a href="{{URL('customer/login')}}" class="nav-item nav-link">Login</a>
+                            <a href="{{URL('customer/register')}}" class="nav-item nav-link">Register</a>
                         </div>
+                         @else
+                         {{ Auth::guard('customer')->user()->name }}
+                         <a href="{{ url('/customer/logout') }}"
+                                        onclick="event.preventDefault();
+                                                 document.getElementById('logout-form').submit();">
+                                        Logout
+                                    </a>
+                         <form id="logout-form" action="{{ url('/customer/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                         @endif
                     </div>
                 </nav>
                 <div id="header-carousel" class="carousel slide" data-ride="carousel">

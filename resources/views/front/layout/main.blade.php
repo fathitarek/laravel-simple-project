@@ -206,6 +206,24 @@
 
     <!-- Template Javascript -->
   <script src="{{ URL::asset('front/js/main.js') }}"></script>  
+
+    <script type="text/javascript">
+                            function updateQty(id,qty){
+                              
+                                console.log(qty);
+                                $.ajax({
+                                    type: "GET",
+                                    url:"/update_qty/"+id+'/'+qty,
+                                    success: function (msg) {
+                                    console.log(msg.qty);
+                                    $('#qty').val(msg.qty);
+                                    },
+                                    error: function (msg) {
+                                        console.log(msg);
+                                    }
+                                });
+                            }
+</script>
 </body>
 
 </html>

@@ -15,4 +15,8 @@ class ProductsColor extends Model
     public function color(){
         return $this->belongsTo('App\Colors');
     }
+
+     public function product(){
+        return $this->belongsTo('App\Product');
+    }
 }
